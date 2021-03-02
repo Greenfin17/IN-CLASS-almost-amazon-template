@@ -1,6 +1,6 @@
 import selectAuthor from './selectAuthor';
 
-const addBookForm = () => {
+const addBookForm = (userId) => {
   document.querySelector('#store').innerHTML = '';
   document.querySelector('#add-button').innerHTML = '';
   document.querySelector('#form-container').innerHTML = `
@@ -26,7 +26,7 @@ const addBookForm = () => {
       <button type="submit" id="submit-book" class="btn btn-primary">Submit Book</button>
     </form>`;
 
-  selectAuthor();
+  selectAuthor(userId);
 };
 
 export default addBookForm;
