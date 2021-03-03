@@ -1,4 +1,6 @@
-const editBookForm = (bookObject) => {
+import selectAuthor from './selectAuthor';
+
+const editBookForm = (userId, bookObject) => {
   document.querySelector('#modal-body').innerHTML = `
     <form id="edit-book-form" class="mb-4">
       <div class="form-group">
@@ -21,6 +23,8 @@ const editBookForm = (bookObject) => {
       </div>
       <button type="submit" id="update-book--${bookObject.firebaseKey}" class="btn btn-success">Update Book</button>
     </form>`;
+  console.warn('editBookForm: ', bookObject);
+  selectAuthor(userId, bookObject);
 };
 
 export default editBookForm;
