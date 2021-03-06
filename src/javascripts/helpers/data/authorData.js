@@ -16,9 +16,9 @@ const getAuthors = (userId) => new Promise((resolve, reject) => {
 });
 
 // DELETE AUTHOR
-const deleteAuthors = (firebaseKey) => new Promise((resolve, reject) => {
+const deleteAuthors = (firebaseKey, userId) => new Promise((resolve, reject) => {
   axios.delete(`${dbUrl}/authors/${firebaseKey}.json`)
-    .then(() => getAuthors().then((authorsArray) => resolve(authorsArray)))
+    .then(() => getAuthors(userId).then((authorsArray) => resolve(authorsArray)))
     .catch((error) => reject(error));
 });
 

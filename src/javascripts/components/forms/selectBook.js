@@ -1,6 +1,6 @@
 import { getBooks } from '../../helpers/data/bookData';
 
-const selectBook = () => {
+const selectBook = (bookObj = null) => {
   let domString = `<label for="book">Select a Book</label>
     <select class="form-control" id="book" required>
     <option value="">Select a Book</option>`;
