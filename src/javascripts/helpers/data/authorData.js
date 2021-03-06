@@ -1,5 +1,6 @@
 import axios from 'axios';
 import firebaseConfig from '../auth/apiKeys';
+import { deleteBooks, getBooksByAuthor } from './bookData';
 // API CALLS FOR AUTHORS
 
 const dbUrl = firebaseConfig.databaseURL;
@@ -15,9 +16,29 @@ const getAuthors = (userId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const getSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/authors/${firebaseKey}.json`)
+    .then((response) => resolve(response.data))
+    .catch((error) => reject(error));
+});
+
+// DELETE BOOKS BY AUTHOR
+const deleteBooksByAuthor = (firebaseKey, userId) => {
+  console.warn(firebaseKey);
+  getBooksByAuthor(firebaseKey).then((books) => {
+    books.forEach((book) => {
+      if (book.uid === userId) {
+        console.warn(book.title);
+        deleteBooks(book.firebaseKey, userId);
+      }
+    });
+  });
+};
+
 // DELETE AUTHOR
 const deleteAuthors = (firebaseKey, userId) => new Promise((resolve, reject) => {
   axios.delete(`${dbUrl}/authors/${firebaseKey}.json`)
+    .then(() => deleteBooksByAuthor(firebaseKey, userId))
     .then(() => getAuthors(userId).then((authorsArray) => resolve(authorsArray)))
     .catch((error) => reject(error));
 });
@@ -34,6 +55,15 @@ const createAuthors = (authorObj, userId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 // UPDATE AUTHOR
+const updateAuthor = (userId, firebaseKey, authorObject) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/authors/${firebaseKey}.json`, authorObject)
+    .then(() => getAuthors(userId).then((authorArr) => resolve(authorArr))
+      .catch((error) => reject(error)));
+});
 // SEARCH AUTHORS
 
-export { getAuthors, createAuthors, deleteAuthors };
+export {
+  getAuthors, getSingleAuthor,
+  createAuthors, deleteAuthors,
+  updateAuthor, deleteBooksByAuthor
+};

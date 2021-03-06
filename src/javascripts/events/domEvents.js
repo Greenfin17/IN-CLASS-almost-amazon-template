@@ -4,11 +4,15 @@ import addAuthorForm from '../components/forms/addAuthorForm';
 import {
   createBooks, deleteBooks, getSingleBook, updateBook
 } from '../helpers/data/bookData';
-import { createAuthors, deleteAuthors } from '../helpers/data/authorData';
+import {
+  createAuthors, deleteAuthors,
+  getSingleAuthor, updateAuthor
+} from '../helpers/data/authorData';
 import { showBooks } from '../components/books';
 import { showAuthors } from '../components/authors';
 import formModal from '../components/forms/formModal';
 import editBookForm from '../components/forms/editBookForm';
+import editAuthorForm from '../components/forms/editAuthorForm';
 
 const domEvents = (userId) => {
   document.querySelector('body').addEventListener('click', (e) => {
@@ -64,7 +68,9 @@ const domEvents = (userId) => {
         sale: document.querySelector('#sale').checked,
         author_id: document.querySelector('#author').value,
       };
-      updateBook(userId, firebaseKey, bookObject);
+      updateBook(userId, firebaseKey, bookObject).then((booksArr) => {
+        showBooks(booksArr);
+      });
       $('#formModal').modal('toggle');
     }
 
@@ -102,7 +108,30 @@ const domEvents = (userId) => {
       };
       createAuthors(authorObject, userId).then((authorsArr) => showAuthors(authorsArr));
     }
+
+    // CLICK EVENT FOR SHOWING MODAL FORM FOR EDITING AN AUTHOR
+    if (e.target.id.includes('edit-author-btn')) {
+      formModal('update Author');
+      const firebaseKey = e.target.id.split('--')[1];
+      console.warn('CLICKED EDIT AUTHOR', firebaseKey);
+      getSingleAuthor(firebaseKey).then((authorObj) => editAuthorForm(authorObj));
+    }
     // ADD CLICK EVENT FOR EDITING AN AUTHOR
+    if (e.target.id.includes('update-author')) {
+      const firebaseKey = e.target.id.split('--')[1];
+      e.preventDefault();
+      const authorObject = {
+        first_name: document.querySelector('#first-name').value,
+        last_name: document.querySelector('#last-name').value,
+        email: document.querySelector('#email').value,
+        favorite: document.querySelector('#favorite').checked,
+        uid: userId
+      };
+      updateAuthor(userId, firebaseKey, authorObject).then((authorArr) => {
+        showAuthors(authorArr);
+      });
+      $('#formModal').modal('toggle');
+    }
   });
 };
 

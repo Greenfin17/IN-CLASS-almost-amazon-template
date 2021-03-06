@@ -15,7 +15,7 @@ const navigationEvents = (userId) => {
   // BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
     console.warn('Sale Books');
-    getSaleBooks().then((books) => {
+    getSaleBooks(userId).then((books) => {
       showBooks(books);
     });
   });
