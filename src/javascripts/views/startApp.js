@@ -4,16 +4,22 @@ import navBar from '../components/navBar';
 import domEvents from '../events/domEvents';
 import navigationEvents from '../events/navigationEvents';
 import { getBooks } from '../helpers/data/bookData';
-import { showBooks } from '../components/books';
+import { emptyBooks, showBooks } from '../components/books';
 
-const startApp = () => {
+const startApp = (userObj) => {
   domBuilder(); // BUILD THE DOM
-  domEvents(); // ADD THE EVENT LISTENTERS TO THE DOM
+  domEvents(userObj.uid); // ADD THE EVENT LISTENTERS TO THE DOM
   navBar(); // DYNAMICALLY ADD THE NAV
   logoutButton(); // ADD THE LOGOUT BUTTON COMPONENT
-  navigationEvents(); // ATTACH THE EVENT LISTENERS TO THE NAVBAR
+  navigationEvents(userObj.uid); // ATTACH THE EVENT LISTENERS TO THE NAVBAR
   // Put all books on the DOM
-  getBooks().then((books) => showBooks(books));
+  getBooks(userObj.uid).then((books) => {
+    if (books.length) {
+      showBooks(books);
+    } else {
+      emptyBooks();
+    }
+  });
 };
 
 export default startApp;

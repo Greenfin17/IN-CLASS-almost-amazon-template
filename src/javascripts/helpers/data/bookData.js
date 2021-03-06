@@ -3,10 +3,11 @@ import firebaseConfig from '../auth/apiKeys';
 // API CALLS FOR BOOKS
 
 const dbUrl = firebaseConfig.databaseURL;
+// const currentUserUid = firebase.auth().currentUser.uid;
 
 // GET BOOKS
-const getBooks = () => new Promise((resolve, reject) => {
-  axios.get(`${dbUrl}/books.json`)
+const getBooks = (userId) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/books.json?orderBy="uid"&equalTo="${userId}"`)
     .then((response) => {
       const booksArray = Object.values(response.data);
       if (response.data) {
@@ -22,13 +23,13 @@ const deleteBooks = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 // CREATE BOOK
-const createBooks = (bookObj) => new Promise((resolve, reject) => {
+const createBooks = (bookObj, userId) => new Promise((resolve, reject) => {
   axios.post(`${dbUrl}/books.json`, bookObj)
     .then((response) => {
       const body = { firebaseKey: response.data.name };
       axios.patch(`${dbUrl}/books/${response.data.name}.json`, body)
         .then(() => {
-          getBooks().then((booksArray) => resolve(booksArray));
+          getBooks(userId).then((booksArray) => resolve(booksArray));
         });
     }).catch((error) => reject(error));
 });
