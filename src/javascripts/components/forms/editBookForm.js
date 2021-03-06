@@ -23,7 +23,6 @@ const editBookForm = (userId, bookObject) => {
       </div>
       <button type="submit" id="update-book--${bookObject.firebaseKey}" class="btn btn-success">Update Book</button>
     </form>`;
-  console.warn('editBookForm: ', bookObject);
   selectAuthor(userId, bookObject);
 };
 
