@@ -5,9 +5,10 @@ import {
   createBooks, deleteBooks, getSingleBook, updateBook
 } from '../helpers/data/bookData';
 import {
-  createAuthors, deleteAuthors,
+  createAuthors,
   getSingleAuthor, updateAuthor
 } from '../helpers/data/authorData';
+import deleteAuthorBooks from '../helpers/data/authorBooksData';
 import { showBooks } from '../components/books';
 import { showAuthors } from '../components/authors';
 import formModal from '../components/forms/formModal';
@@ -22,7 +23,6 @@ const domEvents = (userId) => {
       if (window.confirm('Want to delete?')) {
         console.warn('CLICKED DELETE BOOK', e.target.id);
         const firebaseKey = e.target.id.split('--')[1];
-        console.warn(firebaseKey);
         deleteBooks(firebaseKey, userId).then((booksArray) => showBooks(booksArray));
       }
     }
@@ -36,7 +36,6 @@ const domEvents = (userId) => {
     if (e.target.id.includes('submit-book')) {
       console.warn('CLICKED SUBMIT BOOK', e.target.id);
       e.preventDefault();
-      console.warn(userId);
       const bookObject = {
         title: document.querySelector('#title').value,
         image: document.querySelector('#image').value,
@@ -80,16 +79,15 @@ const domEvents = (userId) => {
       if (window.confirm('Want to delete?')) {
         console.warn('CLICKED DELETE BOOK', e.target.id);
         const firebaseKey = e.target.id.split('--')[1];
-        console.warn(firebaseKey);
-        deleteAuthors(firebaseKey, userId).then((authorsArray) => {
-          if (authorsArray.length) {
-            showAuthors(authorsArray);
-          } else {
-            console.warn('No Authors in Delete Author');
-          }
-        });
+        deleteAuthorBooks(firebaseKey, userId)
+          .then((authorsArray) => {
+            if (authorsArray.length) {
+              showAuthors(authorsArray);
+            } else {
+              console.warn('No Authors in Delete Author');
+            }
+          });
       }
-      console.warn('CLICKED DELETE AUTHOR');
     }
     // ADD CLICK EVENT FOR SHOWING FORM FOR ADDING AN AUTHOR
     if (e.target.id.includes('add-author-btn')) {
