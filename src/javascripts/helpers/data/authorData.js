@@ -36,11 +36,9 @@ const getFavoriteAuthors = () => new Promise((resolve, reject) => {
 
 // DELETE BOOKS BY AUTHOR
 const deleteBooksByAuthor = (firebaseKey, userId) => {
-  console.warn(firebaseKey);
   getBooksByAuthor(firebaseKey).then((books) => {
     books.forEach((book) => {
       if (book.uid === userId) {
-        console.warn(book.title);
         deleteBooks(book.firebaseKey, userId);
       }
     });

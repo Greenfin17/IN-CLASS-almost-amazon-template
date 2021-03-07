@@ -6,7 +6,6 @@ import { deleteAuthors, getSingleAuthor } from './authorData';
 const deleteAuthorBooks = (authorId, userId) => new Promise((resolve, reject) => {
   getBooksByAuthor(authorId).then((booksArr) => {
     const deletedBooks = booksArr.map((book) => deleteBook(book.firebaseKey));
-    console.warn(deletedBooks);
     Promise.all(deletedBooks).then(() => resolve(deleteAuthors(authorId, userId)));
   }).catch((error) => reject(error));
 });
@@ -20,7 +19,6 @@ const authorBookInfo = (authorId) => new Promise((resolve, reject) => {
       { author: authorResponse, books: authorBooksResponse }
     ))
     .catch((error) => reject(error));
-  console.warn(author, authorBooks);
 });
 
 export { deleteAuthorBooks, authorBookInfo };
