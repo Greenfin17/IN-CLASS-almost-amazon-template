@@ -66,7 +66,8 @@ In preparation for next week, complete the following in lab:
 ## TODO 3 - Installs
 - Install [Postman](https://www.postman.com/downloads/)
 
-
+## Screenshot
+![image](https://user-images.githubusercontent.com/51683901/110227698-c6428180-7ec0-11eb-8a96-28cd5fc2962e.png)
 
 ## Technologies used
 - Javascript
