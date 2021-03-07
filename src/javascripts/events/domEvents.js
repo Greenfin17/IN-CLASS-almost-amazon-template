@@ -22,7 +22,6 @@ const domEvents = (userId) => {
     if (e.target.id.includes('delete-book')) {
       e.preventDefault();
       if (window.confirm('Want to delete?')) {
-        console.warn('CLICKED DELETE BOOK', e.target.id);
         const firebaseKey = e.target.id.split('--')[1];
         deleteBooks(firebaseKey, userId).then((booksArray) => showBooks(booksArray));
       }
@@ -35,7 +34,6 @@ const domEvents = (userId) => {
 
     // CLICK EVENT FOR SUBMITTING FORM FOR ADDING A BOOK
     if (e.target.id.includes('submit-book')) {
-      console.warn('CLICKED SUBMIT BOOK', e.target.id);
       e.preventDefault();
       const bookObject = {
         title: document.querySelector('#title').value,
@@ -53,7 +51,6 @@ const domEvents = (userId) => {
     if (e.target.id.includes('edit-book-btn')) {
       formModal('update Book');
       const firebaseKey = e.target.id.split('--')[1];
-      console.warn('CLICKED EDIT BOOK', firebaseKey);
       getSingleBook(firebaseKey).then((bookObject) => editBookForm(userId, bookObject));
     }
 
@@ -78,14 +75,11 @@ const domEvents = (userId) => {
     if (e.target.id.includes('delete-author')) {
       e.preventDefault();
       if (window.confirm('Want to delete?')) {
-        console.warn('CLICKED DELETE BOOK', e.target.id);
         const firebaseKey = e.target.id.split('--')[1];
         deleteAuthorBooks(firebaseKey, userId)
           .then((authorsArray) => {
             if (authorsArray.length) {
               showAuthors(authorsArray);
-            } else {
-              console.warn('No Authors in Delete Author');
             }
           });
       }
@@ -96,7 +90,6 @@ const domEvents = (userId) => {
     }
     // ADD CLICK EVENT FOR SUBMITTING FORM FOR ADDING AN AUTHOR
     if (e.target.id.includes('submit-author')) {
-      console.warn('CLICKED SUBMIT AUTHOR', e.target.id);
       e.preventDefault();
       const authorObject = {
         first_name: document.querySelector('#first-name').value,
@@ -112,7 +105,6 @@ const domEvents = (userId) => {
     if (e.target.id.includes('edit-author-btn')) {
       formModal('update Author');
       const firebaseKey = e.target.id.split('--')[1];
-      console.warn('CLICKED EDIT AUTHOR', firebaseKey);
       getSingleAuthor(firebaseKey).then((authorObj) => editAuthorForm(authorObj));
     }
     // ADD CLICK EVENT FOR EDITING AN AUTHOR
@@ -134,9 +126,7 @@ const domEvents = (userId) => {
 
     if (e.target.id.includes('author-name-title')) {
       const authorId = e.target.id.split('--')[1];
-      console.warn(authorId);
       authorBookInfo(authorId).then((authorInfoObj) => {
-        console.warn(authorInfoObj.books);
         showBooks(authorInfoObj.books);
         authorInfo(authorInfoObj.author);
       });

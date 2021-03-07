@@ -6,7 +6,6 @@ const selectAuthor = (userId, bookObj = null) => {
     <option value="">Select an Author</option>`;
 
   getAuthors(userId, bookObj).then((authorsArray) => {
-    console.warn(`in selectAuthor bookObj: ${bookObj}`);
     authorsArray.forEach((author) => {
       if (bookObj && author.firebaseKey === bookObj.author_id) {
         domString += `<option selected value="${author.firebaseKey}">${author.first_name} ${author.last_name}</option>`;

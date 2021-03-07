@@ -1,4 +1,3 @@
-import firebase from 'firebase/app';
 import 'firebase/auth';
 import signOut from '../helpers/auth/signOut';
 import { getAuthors, getFavoriteAuthors } from '../helpers/data/authorData';
@@ -14,7 +13,6 @@ const navigationEvents = (userId) => {
 
   // BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
-    console.warn('Sale Books');
     getSaleBooks(userId).then((books) => {
       showBooks(books);
     });
@@ -22,8 +20,6 @@ const navigationEvents = (userId) => {
 
   // ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    console.warn('Clicked All Books');
-    console.warn(firebase.auth().currentUser.uid);
     getBooks(userId).then((books) => {
       if (books.length) {
         showBooks(books);
@@ -58,7 +54,6 @@ const navigationEvents = (userId) => {
   // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   document.querySelector('#authors').addEventListener('click', () => {
     emptyAuthors();
-    console.warn('All Authors');
     getAuthors(userId).then((authors) => {
       if (authors.length) {
         showAuthors(authors);
@@ -70,7 +65,6 @@ const navigationEvents = (userId) => {
 
   document.querySelector('#favorite-authors').addEventListener('click', () => {
     emptyAuthors();
-    console.warn('Favorite Authors');
     getFavoriteAuthors(userId).then((authors) => {
       if (authors.length) {
         showAuthors(authors);
