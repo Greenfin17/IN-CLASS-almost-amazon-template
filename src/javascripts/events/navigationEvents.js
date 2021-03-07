@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import signOut from '../helpers/auth/signOut';
-import { getAuthors } from '../helpers/data/authorData';
+import { getAuthors, getFavoriteAuthors } from '../helpers/data/authorData';
 import { showBooks, emptyBooks } from '../components/books';
 import { getBooks, getSaleBooks } from '../helpers/data/bookData';
 import { emptyAuthors, showAuthors } from '../components/authors';
@@ -56,6 +56,18 @@ const navigationEvents = (userId) => {
     emptyAuthors();
     console.warn('All Authors');
     getAuthors(userId).then((authors) => {
+      if (authors.length) {
+        showAuthors(authors);
+      } else {
+        emptyAuthors();
+      }
+    });
+  });
+
+  document.querySelector('#favorite-authors').addEventListener('click', () => {
+    emptyAuthors();
+    console.warn('Favorite Authors');
+    getFavoriteAuthors(userId).then((authors) => {
       if (authors.length) {
         showAuthors(authors);
       } else {

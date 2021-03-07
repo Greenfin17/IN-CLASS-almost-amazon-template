@@ -16,10 +16,22 @@ const getAuthors = (userId) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+// GET SINGLE AUTHOR
 const getSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/authors/${firebaseKey}.json`)
     .then((response) => resolve(response.data))
     .catch((error) => reject(error));
+});
+
+// GET FAVORITE AUTHORS
+const getFavoriteAuthors = () => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/authors.json?orderBy="favorite"&equalTo=true`)
+    .then((response) => {
+      const favoriteAuthorsArray = Object.values(response.data);
+      if (response.data) {
+        resolve(favoriteAuthorsArray);
+      } else resolve([]);
+    }).catch((error) => reject(error));
 });
 
 // DELETE BOOKS BY AUTHOR
@@ -63,6 +75,7 @@ const updateAuthor = (userId, firebaseKey, authorObject) => new Promise((resolve
 
 export {
   getAuthors, getSingleAuthor,
+  getFavoriteAuthors,
   createAuthors, deleteAuthors,
   updateAuthor, deleteBooksByAuthor
 };

@@ -8,12 +8,13 @@ import {
   createAuthors,
   getSingleAuthor, updateAuthor
 } from '../helpers/data/authorData';
-import deleteAuthorBooks from '../helpers/data/authorBooksData';
+import { deleteAuthorBooks, authorBookInfo } from '../helpers/data/authorBooksData';
 import { showBooks } from '../components/books';
 import { showAuthors } from '../components/authors';
 import formModal from '../components/forms/formModal';
 import editBookForm from '../components/forms/editBookForm';
 import editAuthorForm from '../components/forms/editAuthorForm';
+import authorInfo from '../components/authorInfo';
 
 const domEvents = (userId) => {
   document.querySelector('body').addEventListener('click', (e) => {
@@ -129,6 +130,16 @@ const domEvents = (userId) => {
         showAuthors(authorArr);
       });
       $('#formModal').modal('toggle');
+    }
+
+    if (e.target.id.includes('author-name-title')) {
+      const authorId = e.target.id.split('--')[1];
+      console.warn(authorId);
+      authorBookInfo(authorId).then((authorInfoObj) => {
+        console.warn(authorInfoObj.books);
+        showBooks(authorInfoObj.books);
+        authorInfo(authorInfoObj.author);
+      });
     }
   });
 };
