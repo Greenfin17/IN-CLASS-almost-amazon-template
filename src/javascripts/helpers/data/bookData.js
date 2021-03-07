@@ -82,7 +82,19 @@ const updateBook = (userId, firebaseKey, bookObject) => new Promise((resolve, re
 });
 
 // SEARCH BOOKS
+const searchBooks = (userId, searchValue) => new Promise((resolve, reject) => {
+  let filteredBooks = [];
+  getBooks(userId).then((books) => {
+    if (books.length) {
+      filteredBooks = books.filter((book) => book.title.toLowerCase().includes(searchValue));
+    }
+  })
+    .then(() => resolve(filteredBooks))
+    .catch((error) => reject(error));
+});
+
 export {
   getBooks, deleteBooks, deleteBook, createBooks, getSaleBooks,
-  getSingleBook, getBooksByAuthor, updateBook
+  getSingleBook, getBooksByAuthor, updateBook,
+  searchBooks
 };
