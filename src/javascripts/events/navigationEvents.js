@@ -3,7 +3,7 @@ import 'firebase/auth';
 import signOut from '../helpers/auth/signOut';
 import { getAuthors, getFavoriteAuthors } from '../helpers/data/authorData';
 import { showBooks, emptyBooks } from '../components/books';
-import { getBooks, getSaleBooks } from '../helpers/data/bookData';
+import { getBooks, getSaleBooks, searchBooks } from '../helpers/data/bookData';
 import { emptyAuthors, showAuthors } from '../components/authors';
 
 // navigation events
@@ -36,17 +36,21 @@ const navigationEvents = (userId) => {
   // SEARCH
   document.querySelector('#search').addEventListener('keyup', (e) => {
     const searchValue = document.querySelector('#search').value.toLowerCase();
-    console.warn(searchValue);
 
     // WHEN THE USER PRESSES ENTER, MAKE THE API CALL AND CLEAR THE INPUT
+    // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
+    // OTHERWISE SHOW THE STORE
     if (e.keyCode === 13) {
-      // MAKE A CALL TO THE API TO FILTER ON THE BOOKS
-      // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
-      // OTHERWISE SHOW THE STORE
-
-      document.querySelector('#search').value = '';
+      searchBooks(userId, searchValue).then((books) => {
+        if (books.length) {
+          showBooks(books);
+        } else {
+          emptyBooks();
+        }
+      });
     }
   });
+  document.querySelector('#search').value = '';
 
   // FIXME: STUDENTS Create an event listener for the Authors
   // 1. When a user clicks the authors link, make a call to firebase to get all authors
