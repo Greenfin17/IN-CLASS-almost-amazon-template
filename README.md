@@ -3,6 +3,7 @@
 - This site allows a user to track books and authors
 
 ## Site link
+[![Netlify Status](https://api.netlify.com/api/v1/badges/45cf186f-9453-4671-90d8-efcb6f368a83/deploy-status)](https://app.netlify.com/sites/unruffled-morse-7d9b48/deploys)
 - https://unruffled-morse-7d9b48.netlify.app/#
 
 ## User
